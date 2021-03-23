@@ -4,6 +4,7 @@
         <TargetFramework>net35</TargetFramework>
         <LangVersion>9</LangVersion>
         <Nullable>enable</Nullable>
+        <RootNamespace>Deli.ExampleMod</RootNamespace>
     </PropertyGroup>
     
     <ItemGroup>

@@ -5,15 +5,15 @@ using Deli.VFS;
 using Deli.VFS.Disk;
 using UnityEngine.SceneManagement;
 
-namespace Deli.ExampleMod
+namespace SosigScript
 {
     // DeliBehaviours are just MonoBehaviours that get added to a global game object when the game first starts.
-    public class ExampleMod : DeliBehaviour
+    public class SosigScript : DeliBehaviour
     {
         private ImmediateTypedFileHandle<string>? _textResource;
         
         // All Deli properties can be accessed here, but don't use Unity's API until Awake.
-        public ExampleMod()
+        public SosigScript()
         {
             // There is 1 log message in each of the methods here.
             // Run this mod to see the order of execution logged to console.
