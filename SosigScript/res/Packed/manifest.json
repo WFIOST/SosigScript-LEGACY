@@ -1,0 +1,24 @@
+{
+    "name": "Example SosigScript",
+    "authors": [
+      "Frityet"
+    ],
+    
+    "guid": "com.wfiost.sosigscript",
+
+    "version": "1.0.0",
+
+    "require": "0.3.0",
+
+    "dependencies": {},
+    
+    "assets": 
+    {
+      "setup": 
+      {
+        "Deli.ExampleMod.dll": "deli:assembly",
+        "res/ExampleAsset1.txt": "deli.example_mod:example_asset"
+      }
+    }
+  }
+  

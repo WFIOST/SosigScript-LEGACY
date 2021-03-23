@@ -4,17 +4,11 @@
         <TargetFramework>net35</TargetFramework>
         <LangVersion>9</LangVersion>
         <Nullable>enable</Nullable>
-        <RootNamespace>Deli.ExampleMod</RootNamespace>
+        <RootNamespace>SosigScript</RootNamespace>
     </PropertyGroup>
     
     <ItemGroup>
       <None Update="manifest.json">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="res\ExampleTextResource.txt">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="res\ExampleAsset1.txt">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
     </ItemGroup>
@@ -24,6 +18,12 @@
         
       <PackageReference Include="jnm2.ReferenceAssemblies.net35" Version="1.0.1" PrivateAssets="all" />  
       <PackageReference Include="Nullable" Version="1.3.0" PrivateAssets="all" />
+    </ItemGroup>
+    
+    <ItemGroup>
+      <Reference Include="MoonSharp.Interpreter, Version=2.0.0.0, Culture=neutral, PublicKeyToken=921e73ce94aa17f8">
+        <HintPath>lib\MoonSharp.Interpreter.dll</HintPath>
+      </Reference>
     </ItemGroup>
 
 </Project>
