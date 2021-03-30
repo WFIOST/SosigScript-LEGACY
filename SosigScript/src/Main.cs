@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using SosigScript.Common;
 using Deli.Setup;
 using MoonSharp.Interpreter;
@@ -37,7 +38,7 @@ namespace SosigScript
                     )
             )
             {
-                Logger.LogInfo(result.String);
+                Logger.LogInfo(result.CastToString());
             }
 
         }

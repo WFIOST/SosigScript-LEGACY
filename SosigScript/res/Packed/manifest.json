@@ -1,6 +1,7 @@
 {
     "name": "Example SosigScript",
-    "authors": [
+    "authors":
+    [
       "Frityet"
     ],
     
@@ -10,14 +11,16 @@
 
     "require": "0.3.0",
 
-    "dependencies": {},
+    "dependencies": 
+    {
+      
+    },
     
     "assets": 
     {
       "setup": 
       {
-        "Deli.ExampleMod.dll": "deli:assembly",
-        "res/ExampleAsset1.txt": "deli.example_mod:example_asset"
+        "HelloWorld.lua" : "SosigScript"
       }
     }
   }
