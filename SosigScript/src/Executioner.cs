@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using BepInEx.Logging;
 using Deli;
 using MoonSharp.Interpreter;
+using MoonSharp.Interpreter.Platforms;
 
 namespace SosigScript
 {
@@ -16,8 +17,9 @@ namespace SosigScript
                 Options =
                 {
                     DebugPrint = message => { scriptLogger.LogMessage(message); }
-                }
+                },
             };
+            
 
             yield return loader.DoString(script.Value);
         }
