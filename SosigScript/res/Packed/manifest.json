@@ -1,11 +1,11 @@
 {
-    "name": "Example SosigScript",
+    "name": "Example SosigScript 1",
     "authors":
     [
       "Frityet"
     ],
     
-    "guid": "com.wfiost.sosigscript",
+    "guid": "com.wfiost.examplesosigscript1",
 
     "version": "1.0.0",
 
@@ -13,12 +13,12 @@
 
     "dependencies": 
     {
-      
+        "com.wfiost.sosigscript" : "0.1.0"
     },
     
     "assets": 
     {
-      "setup": 
+      "runtime": 
       {
         "HelloWorld.lua" : "SosigScript"
       }

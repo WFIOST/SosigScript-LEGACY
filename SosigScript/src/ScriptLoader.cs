@@ -6,32 +6,27 @@ using System.Linq;
 using Deli;
 using Deli.Runtime;
 using Deli.VFS;
-
 using static SosigScript.Logger;
 
 namespace SosigScript
 {
     public class ScriptLoader
     {
-        public static Dictionary<string, string> Scripts = new();
-        
+        public static Dictionary<Mod, string> Scripts = new();
+
         public IEnumerator LoadScripts(RuntimeStage stage, Mod mod, IHandle handle)
         {
-            if (handle is not IFileHandle file)
-            {
-                throw new ArgumentException($"ERROR: {handle} IS NOT A VALID SCRIPT");
-            }
-            
+            if (handle is not IFileHandle file) throw new ArgumentException($"ERROR: {handle} IS NOT A VALID SCRIPT");
+
             Print($"Loading script {file}");
             string script;
 
             yield return script = File.ReadAllLines(file.Path).ToString();
-            
-            Scripts.Add(mod.Info.Guid, script);
+
+            Scripts.Add(mod, script);
 
             Print($"Executing script {file}");
             yield return Executioner.ExecuteAsync(Scripts.FirstOrDefault());
         }
-        
     }
 }
