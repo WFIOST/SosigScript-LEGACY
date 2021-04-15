@@ -1,0 +1,27 @@
+{
+    "name": "Example SosigScript 2",
+    "authors":
+    [
+      "Frityet"
+    ],
+    
+    "guid": "com.wfiost.examplesosigscript2",
+
+    "version": "1.0.0",
+
+    "require": "0.3.0",
+
+    "dependencies": 
+    {
+        "com.wfiost.sosigscript" : "0.1.0"
+    },
+    
+    "assets": 
+    {
+      "runtime": 
+      {
+        "HelloWorld.lua" : "SosigScript"
+      }
+    }
+  }
+  
