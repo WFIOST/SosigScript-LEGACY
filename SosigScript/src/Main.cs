@@ -3,9 +3,11 @@ using Deli;
 using Deli.Runtime;
 using Deli.Setup;
 
+#region ERROR DIABLES
 // ReSharper disable UnusedMember.local
 // ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
 // ReSharper disable EmptyConstructor
+#endregion
 
 namespace SosigScript
 {

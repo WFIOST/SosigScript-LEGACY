@@ -12,7 +12,7 @@ namespace SosigScript
 {
     public class ScriptLoader
     {
-        public static Dictionary<Mod, string> Scripts = new();
+        public static Dictionary<Mod, string> Scripts { get; private set; } = new();
 
         public IEnumerator LoadScripts(RuntimeStage stage, Mod mod, IHandle handle)
         {
