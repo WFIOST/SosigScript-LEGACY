@@ -6,13 +6,14 @@ using System.Linq;
 using Deli;
 using Deli.Runtime;
 using Deli.VFS;
+//because i can
 using static SosigScript.Logger;
 
 namespace SosigScript
 {
     public class ScriptLoader
     {
-        public static Dictionary<Mod, string> Scripts { get; private set; } = new();
+        public static Dictionary<Mod, string> Scripts { get; } = new();
 
         public IEnumerator LoadScripts(RuntimeStage stage, Mod mod, IHandle handle)
         {
