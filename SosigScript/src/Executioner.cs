@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using BepInEx.Logging;
 using Deli;
 using MoonSharp.Interpreter;
+using MoonSharp.Interpreter.Loaders;
 
 namespace SosigScript
 {

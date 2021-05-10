@@ -25,5 +25,9 @@
         <HintPath>lib\MoonSharp.Interpreter.dll</HintPath>
       </Reference>
     </ItemGroup>
+    
+    <ItemGroup>
+      <Folder Include="src\StandardLibrary" />
+    </ItemGroup>
 
 </Project>
