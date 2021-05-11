@@ -2,11 +2,14 @@ using BepInEx.Logging;
 
 namespace SosigScript
 {
-    public static class Logger
+    internal static class Logger
     {
-        public static void Print(object message, LogLevel level = LogLevel.Info)
+        internal static void Print(object message, LogLevel level = LogLevel.Info) => Plugin.Console.Log(level, message);
+        
+
+        internal static class Debug
         {
-            Plugin.Console.Log(level, message);
+            internal static void Print(object message) => Plugin.Console.Log(LogLevel.Debug, message);
         }
     }
 }

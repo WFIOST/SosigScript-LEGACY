@@ -6,9 +6,9 @@ using MoonSharp.Interpreter.Loaders;
 
 namespace SosigScript
 {
-    public static class Executioner
+    public class Executioner
     {
-        public static IEnumerator<DynValue> ExecuteAsync(KeyValuePair<Mod, string> script)
+        public IEnumerator<DynValue> ExecuteAsync(KeyValuePair<Mod, string> script)
         {
             var scriptLogger = new ManualLogSource($"SosigScript - {script.Key.Info.Name}");
 

@@ -1,11 +1,17 @@
-﻿using BepInEx.Logging;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using BepInEx.Logging;
 using Deli;
 using Deli.Runtime;
 using Deli.Setup;
 using MoonSharp.Interpreter;
 using MoonSharp.Interpreter.Platforms;
 
-#region ERROR DIABLES
+using static SosigScript.Logger;
+
+#region ERROR DISABLES
 // ReSharper disable UnusedMember.local
 // ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
 // ReSharper disable EmptyConstructor
@@ -15,6 +21,10 @@ namespace SosigScript
 {
     public class Plugin : DeliBehaviour
     {
+        internal static ManualLogSource Console { get; private set; } = new("SosigScript");
+
+        public static LibraryLoader Libraries = new LibraryLoader();
+        
         public Plugin()
         {
             Logger.LogInfo("Initialising SosigScript");
@@ -28,16 +38,26 @@ namespace SosigScript
             Script.RunString("print('SosigScript initialised! Hello from Lua!')");
         }
 
-        internal static ManualLogSource Console { get; set; } = new("SosigScript");
-
         private void Awake()
         {
-            Logger.LogInfo("Started SosigScript!");
+            Print("Loading libraries");
+            Libraries.LoadAllAssemblyTypes();
+            Print($"Loaded {Libraries.LoadedAssemblies.ToList().Count} Libraries!");
         }
 
+        /// <summary>
+        /// Here we register the assetloaders for SosigScript
+        /// Currently there is 2 loaders:
+        /// 1. Lua script ("SosigScript")
+        /// 2. SosigScript library ("SosigScript.Library")
+        /// </summary>
         private void Register(RuntimeStage stage)
         {
-            stage.RuntimeAssetLoaders[Source, "SosigScript"] = new ScriptLoader().LoadScripts;
+            Type cum, shit, piss;
+            
+            stage.RuntimeAssetLoaders[Source, "Script"] = new ScriptLoader().LoadScripts;
+    
+            stage.RuntimeAssetLoaders[Source, "Library"] = Libraries.LoadAssembly;
         }
     }
 }
