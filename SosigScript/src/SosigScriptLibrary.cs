@@ -1,18 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Runtime.CompilerServices;
-using JetBrains.Annotations;
-using MoonSharp.Interpreter;
-using MoonSharp.Interpreter.Compatibility;
-using MoonSharp.Interpreter.Interop;
+﻿using MoonSharp.Interpreter;
 
 namespace SosigScript
 {
     public abstract class SosigScriptLibrary
     {
-        public Table Globals;
+        private Script _currentScript = SosigScript.SosigScriptInstance.ScriptLoader;
+
+        public Table Globals = new Table(SosigScript.SosigScriptInstance.ScriptLoader);
 
         public abstract void RegisterUserData();
         

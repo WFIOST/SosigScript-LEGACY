@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using Deli;
 using Deli.Runtime;
+using Deli.Setup;
 using Deli.VFS;
 using HarmonyLib;
 using MoonSharp.Interpreter;
@@ -19,15 +20,13 @@ namespace SosigScript
     {
         public IEnumerable<Assembly> LoadedAssemblies { get; } = new List<Assembly>();
 
-        public IEnumerator<Assembly> LoadAssembly(RuntimeStage stage, Mod mod, IHandle handle)
+        public void LoadAssembly(SetupStage stage, Mod mod, IHandle handle)
         {
             if (handle is not IFileHandle file) throw new ArgumentException($"ERROR: {handle} IS NOT A VALID ASSEMBLY!");
             
             Debug.Print($"Loading assembly {file.Name}");
 
-            Assembly asm;
-            
-            yield return asm = Assembly.LoadFile(file.Path);
+            Assembly asm = Assembly.LoadFile(file.Path);
 
             LoadedAssemblies.AddItem(asm);
         }

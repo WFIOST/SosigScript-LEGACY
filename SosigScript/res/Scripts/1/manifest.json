@@ -20,7 +20,7 @@
     {
       "runtime": 
       {
-        "HelloWorld.lua" : "SosigScript"
+        "Script.lua" : "com.wfiost.sosigscript:script"
       }
     }
   }

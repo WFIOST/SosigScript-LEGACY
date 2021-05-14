@@ -1,8 +1,4 @@
-﻿using FistVR;
-using MoonSharp.Interpreter;
-using Semver;
-
-namespace SosigScript
+﻿namespace SosigScript
 {
     [SosigScriptLibrary("Test Library", "1.0.0")]
     public class LibraryTest : SosigScriptLibrary

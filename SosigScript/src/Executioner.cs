@@ -8,19 +8,21 @@ namespace SosigScript
 {
     public class Executioner
     {
+        public List<DynValue> ReturnValues = new List<DynValue>();
+
         public IEnumerator<DynValue> ExecuteAsync(KeyValuePair<Mod, string> script)
         {
             var scriptLogger = new ManualLogSource($"SosigScript - {script.Key.Info.Name}");
 
-            var loader = new Script
-            {
-                Options =
-                {
-                    DebugPrint = message => { scriptLogger.LogMessage(message); }
-                }
-            };
+            var scriptLoader = SosigScript.SosigScriptInstance.ScriptLoader;
+            
+            scriptLoader.Options.DebugPrint = message => scriptLogger.LogInfo(message);
 
-            yield return loader.DoString(script.Value);
+            DynValue result;
+            
+            yield return result = scriptLoader.DoString(script.Value);
+            
+            ReturnValues.Add(result);
         }
     }
 }

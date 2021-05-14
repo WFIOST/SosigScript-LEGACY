@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using BepInEx.Logging;
 using Deli;
 using Deli.Runtime;
@@ -15,17 +17,22 @@ using static SosigScript.Logger;
 // ReSharper disable UnusedMember.local
 // ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
 // ReSharper disable EmptyConstructor
+#pragma warning disable 8618
 #endregion
 
 namespace SosigScript
 {
-    public class Plugin : DeliBehaviour
+    public class SosigScript : DeliBehaviour
     {
+
+        public static SosigScript SosigScriptInstance { get; private set; }
         internal static ManualLogSource Console { get; private set; } = new("SosigScript");
 
-        public static LibraryLoader Libraries = new LibraryLoader();
-        
-        public Plugin()
+        public static LibraryLoader Libraries = new();
+
+        public Script ScriptLoader { get; set; }
+
+        public SosigScript()
         {
             Logger.LogInfo("Initialising SosigScript");
             //Start up MoonSharp so scripts load faster
@@ -36,6 +43,10 @@ namespace SosigScript
             Script.DefaultOptions.DebugPrint = message => { new ManualLogSource("SosigScript").LogInfo(message); };
             //Run a print command!
             Script.RunString("print('SosigScript initialised! Hello from Lua!')");
+
+            ScriptLoader = new Script();
+
+            SosigScriptInstance = this;
         }
 
         private void Awake()
@@ -53,11 +64,14 @@ namespace SosigScript
         /// </summary>
         private void Register(RuntimeStage stage)
         {
-            Type cum, shit, piss;
-            
-            stage.RuntimeAssetLoaders[Source, "Script"] = new ScriptLoader().LoadScripts;
+            stage.RuntimeAssetLoaders[Source, "script"] = new ScriptLoader().LoadScripts;
     
-            stage.RuntimeAssetLoaders[Source, "Library"] = Libraries.LoadAssembly;
+           
+        }
+
+        private void Register(SetupStage stage)
+        {
+            stage.SetupAssetLoaders[Source, "library"] = Libraries.LoadAssembly;
         }
     }
 }
