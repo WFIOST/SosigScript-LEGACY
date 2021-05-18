@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Deli;
 using Deli.Runtime;
 using Deli.VFS;
@@ -24,9 +25,13 @@ namespace SosigScript
 
             Print($"Executing script {file}");
 
-            var executioner = new Executioner();
-            
-            yield return executioner.ExecuteAsync(new KeyValuePair<Mod, string>(mod, script));
+            if (!SosigScript.Libraries.LibrariesLoaded)
+            {
+                Print("Loading libraries");
+                SosigScript.Libraries.LoadAllAssemblyTypes();
+            }
+
+            yield return SosigScript.ScriptExecutor.Execute(new KeyValuePair<Mod, string>(mod, script));
         }
     }
 }

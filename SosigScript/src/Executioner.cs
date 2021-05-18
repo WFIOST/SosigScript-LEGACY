@@ -10,7 +10,7 @@ namespace SosigScript
     {
         public List<DynValue> ReturnValues = new List<DynValue>();
 
-        public IEnumerator<DynValue> ExecuteAsync(KeyValuePair<Mod, string> script)
+        public IEnumerator<DynValue> Execute(KeyValuePair<Mod, string> script)
         {
             var scriptLogger = new ManualLogSource($"SosigScript - {script.Key.Info.Name}");
 

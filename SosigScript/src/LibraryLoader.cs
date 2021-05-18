@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -19,6 +20,7 @@ namespace SosigScript
     public class LibraryLoader
     {
         public IEnumerable<Assembly> LoadedAssemblies { get; } = new List<Assembly>();
+        public bool LibrariesLoaded { get; private set;  }
 
         public void LoadAssembly(SetupStage stage, Mod mod, IHandle handle)
         {
@@ -79,6 +81,7 @@ namespace SosigScript
                         .AccessMode
                 );
             }
+            
         }
 
         public void LoadAllAssemblyTypes()
@@ -87,6 +90,8 @@ namespace SosigScript
             {
                 LoadAssemblyTypes(asm, true);
             }
+
+            LibrariesLoaded = true;
         }
     }
 }

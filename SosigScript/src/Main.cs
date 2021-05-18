@@ -24,7 +24,7 @@ namespace SosigScript
 {
     public class SosigScript : DeliBehaviour
     {
-
+        public static Executioner ScriptExecutor { get; private set; }
         public static SosigScript SosigScriptInstance { get; private set; }
         internal static ManualLogSource Console { get; private set; } = new("SosigScript");
 
@@ -45,17 +45,13 @@ namespace SosigScript
             Script.RunString("print('SosigScript initialised! Hello from Lua!')");
 
             ScriptLoader = new Script();
+            ScriptExecutor = new Executioner();
 
             SosigScriptInstance = this;
         }
 
-        private void Awake()
-        {
-            Print("Loading libraries");
-            Libraries.LoadAllAssemblyTypes();
-            Print($"Loaded {Libraries.LoadedAssemblies.ToList().Count} Libraries!");
-        }
-
+        
+        
         /// <summary>
         /// Here we register the assetloaders for SosigScript
         /// Currently there is 2 loaders:
@@ -65,8 +61,6 @@ namespace SosigScript
         private void Register(RuntimeStage stage)
         {
             stage.RuntimeAssetLoaders[Source, "script"] = new ScriptLoader().LoadScripts;
-    
-           
         }
 
         private void Register(SetupStage stage)
