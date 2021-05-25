@@ -14,7 +14,7 @@ namespace SosigScript
         {
             var scriptLogger = new ManualLogSource($"SosigScript - {script.Key.Info.Name}");
 
-            var scriptLoader = SosigScript.SosigScriptInstance.ScriptLoader;
+            var scriptLoader = SosigScript.Instance.ScriptLoader;
             
             scriptLoader.Options.DebugPrint = message => scriptLogger.LogInfo(message);
 

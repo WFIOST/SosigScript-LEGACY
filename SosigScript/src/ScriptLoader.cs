@@ -16,6 +16,7 @@ namespace SosigScript
     {
         public IEnumerator LoadScripts(RuntimeStage stage, Mod mod, IHandle handle)
         {
+            
             if (handle is not IFileHandle file) throw new ArgumentException($"ERROR: {handle} IS NOT A VALID SCRIPT");
 
             Print($"Loading script {file}");

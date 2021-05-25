@@ -25,7 +25,7 @@ namespace SosigScript
     public class SosigScript : DeliBehaviour
     {
         public static Executioner ScriptExecutor { get; private set; }
-        public static SosigScript SosigScriptInstance { get; private set; }
+        public static SosigScript Instance { get; private set; }
         internal static ManualLogSource Console { get; private set; } = new("SosigScript");
 
         public static LibraryLoader Libraries = new();
@@ -44,20 +44,14 @@ namespace SosigScript
             //Run a print command!
             Script.RunString("print('SosigScript initialised! Hello from Lua!')");
 
-            ScriptLoader = new Script();
+            //We set the "Soft Sandbox" so user has more options in their scripts
+            ScriptLoader = new Script(CoreModules.Preset_SoftSandbox);
+            
             ScriptExecutor = new Executioner();
 
-            SosigScriptInstance = this;
+            Instance = this;
         }
-
         
-        
-        /// <summary>
-        /// Here we register the assetloaders for SosigScript
-        /// Currently there is 2 loaders:
-        /// 1. Lua script ("SosigScript")
-        /// 2. SosigScript library ("SosigScript.Library")
-        /// </summary>
         private void Register(RuntimeStage stage)
         {
             stage.RuntimeAssetLoaders[Source, "script"] = new ScriptLoader().LoadScripts;

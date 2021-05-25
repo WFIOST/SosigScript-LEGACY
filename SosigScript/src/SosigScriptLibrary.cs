@@ -4,9 +4,9 @@ namespace SosigScript
 {
     public abstract class SosigScriptLibrary
     {
-        private Script _currentScript = SosigScript.SosigScriptInstance.ScriptLoader;
+        private Script _currentScript = SosigScript.Instance.ScriptLoader;
 
-        public Table Globals = new Table(SosigScript.SosigScriptInstance.ScriptLoader);
+        public Table Globals = new Table(SosigScript.Instance.ScriptLoader);
 
         public abstract void RegisterUserData();
         
