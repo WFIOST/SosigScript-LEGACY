@@ -63,7 +63,9 @@ namespace SosigScript
             Script.DefaultOptions.DebugPrint = message => { BepInEx.Logging.Logger.CreateLogSource("SosigScript (INITIALISATION)").LogInfo(message); };
             //Run a print command!
             Script.RunString("print('SosigScript initialised! Hello from Lua!')");
-
+            Debug.Print("Subscribing to the AssetLoader events");
+            Stages.Setup += RegisterLibraries;
+            Stages.Runtime += RegisterScripts;
             //We set the "Soft Sandbox" so user has more options in their scripts
             ScriptLoader = new Script(CoreModules.Preset_SoftSandbox);
             
@@ -72,13 +74,13 @@ namespace SosigScript
             Instance = this;
         }
         
-        private void Register(RuntimeStage stage)
+        private void RegisterScripts(RuntimeStage stage)
         {
             Debug.Print("Loading Scripts");
             stage.RuntimeAssetLoaders[Source, "script"] = new ScriptLoader().LoadScripts;
         }
 
-        private void Register(SetupStage stage)
+        private void RegisterLibraries(SetupStage stage)
         {
             Debug.Print("Loading Scripts");
             stage.SetupAssetLoaders[Source, "library"] = Libraries.LoadAssembly;
