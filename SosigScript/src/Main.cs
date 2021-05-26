@@ -51,21 +51,21 @@ namespace SosigScript
             Console = BepInEx.Logging.Logger.CreateLogSource("SosigScript");
             
             
-            Print("Initialising SosigScript");
+            Logger.LogInfo("Initialising SosigScript");
             //Start up MoonSharp so scripts load faster
-            Debug.Print("Warming up scripts");
+            Logger.LogDebug("Warming up scripts");
             Script.WarmUp();
             //Give it standard platform settings
-            Debug.Print("Setting Platform accessors");
+            Logger.LogDebug("Setting Platform accessors");
             Script.GlobalOptions.Platform = new StandardPlatformAccessor();
             //Make a new manual log source specifically for checking if MoonSharp is initialised
-            Debug.Print("Setting DebugPrint logsource");
+            Logger.LogDebug("Setting DebugPrint logsource");
             Script.DefaultOptions.DebugPrint = message => { BepInEx.Logging.Logger.CreateLogSource("SosigScript (INITIALISATION)").LogInfo(message); };
             //Run a print command!
             Script.RunString("print('SosigScript initialised! Hello from Lua!')");
-            Debug.Print("Subscribing to the AssetLoader events");
-            Stages.Setup += RegisterLibraries;
-            Stages.Runtime += RegisterScripts;
+            Logger.LogDebug("Subscribing to the AssetLoader events");
+            Stages.Setup    += RegisterLibraries;
+            Stages.Runtime  += RegisterScripts;
             //We set the "Soft Sandbox" so user has more options in their scripts
             ScriptLoader = new Script(CoreModules.Preset_SoftSandbox);
             
@@ -82,7 +82,7 @@ namespace SosigScript
 
         private void RegisterLibraries(SetupStage stage)
         {
-            Debug.Print("Loading Scripts");
+            Debug.Print("Loading Libraries");
             stage.SetupAssetLoaders[Source, "library"] = Libraries.LoadAssembly;
         }
     }

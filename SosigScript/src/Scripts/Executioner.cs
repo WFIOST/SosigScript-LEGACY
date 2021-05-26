@@ -4,6 +4,8 @@ using Deli;
 using MoonSharp.Interpreter;
 using MoonSharp.Interpreter.Loaders;
 
+using static SosigScript.Logger;
+
 namespace SosigScript
 {
     public class Executioner
@@ -19,14 +21,18 @@ namespace SosigScript
         /// <returns>Return value of the script (also in the ReturnValues dictionary)</returns>
         public IEnumerator<DynValue> Execute(KeyValuePair<Mod, string> script)
         {
+            Debug.Print($"Executing mod {script.Key.Info.Name}");
+            
             var scriptLogger = BepInEx.Logging.Logger.CreateLogSource($"SosigScript - {script.Key.Info.Name}");
 
             var scriptLoader = SosigScript.Instance.ScriptLoader;
             
+            Debug.Print("Assigning the DebugPrint to the LogScource");
             scriptLoader.Options.DebugPrint = message => scriptLogger.LogInfo(message);
 
             DynValue result;
             
+            Debug.Print("Running the script");
             yield return result = scriptLoader.DoString(script.Value);
             
             ReturnValues.Add(script.Key, result);

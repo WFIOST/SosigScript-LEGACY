@@ -25,7 +25,7 @@ namespace SosigScript
         /// <summary>
         /// List of all the loaded assemblies
         /// </summary>
-        public IEnumerable<Assembly> LoadedAssemblies { get; } = new List<Assembly>();
+        public List<Assembly> LoadedAssemblies { get; } = new List<Assembly>();
         /// <summary>
         /// Boolean expressing if the libraries have been loaded
         /// </summary>
