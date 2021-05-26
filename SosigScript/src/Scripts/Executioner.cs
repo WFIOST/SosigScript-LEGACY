@@ -8,8 +8,15 @@ namespace SosigScript
 {
     public class Executioner
     {
-        public List<DynValue> ReturnValues = new List<DynValue>();
-
+        /// <summary>
+        /// Dictionary of all the return values of the scripts, mapped to the mod which it is from
+        /// </summary>
+        public Dictionary<Mod, DynValue> ReturnValues = new Dictionary<Mod, DynValue>();
+        /// <summary>
+        /// Executes specified script
+        /// </summary>
+        /// <param name="script">KeyValuePair of Mod (Class), String (the raw script itself)</param>
+        /// <returns>Return value of the script (also in the ReturnValues dictionary)</returns>
         public IEnumerator<DynValue> Execute(KeyValuePair<Mod, string> script)
         {
             var scriptLogger = BepInEx.Logging.Logger.CreateLogSource($"SosigScript - {script.Key.Info.Name}");
@@ -22,7 +29,7 @@ namespace SosigScript
             
             yield return result = scriptLoader.DoString(script.Value);
             
-            ReturnValues.Add(result);
+            ReturnValues.Add(script.Key, result);
         }
     }
 }

@@ -17,11 +17,23 @@ using static SosigScript.Logger;
 
 namespace SosigScript
 {
+    /// <summary>
+    /// Loads SosigScript libraries
+    /// </summary>
     public class LibraryLoader
     {
+        /// <summary>
+        /// List of all the loaded assemblies
+        /// </summary>
         public IEnumerable<Assembly> LoadedAssemblies { get; } = new List<Assembly>();
+        /// <summary>
+        /// Boolean expressing if the libraries have been loaded
+        /// </summary>
         public bool LibrariesLoaded { get; private set;  }
 
+        /// <summary>
+        /// Loads an assembly into memory
+        /// </summary>
         public void LoadAssembly(SetupStage stage, Mod mod, IHandle handle)
         {
             if (handle is not IFileHandle file) throw new ArgumentException($"ERROR: {handle} IS NOT A VALID ASSEMBLY!");
@@ -33,7 +45,12 @@ namespace SosigScript
             LoadedAssemblies.AddItem(asm);
         }
 
-        public static void LoadAssemblyTypes(Assembly asm, bool useExtTypes = false)
+        /// <summary>
+        /// Loads all the classes with SosigScriptLibraryAttribute in the specified assembly
+        /// </summary>
+        /// <param name="asm">Assembly to get types from</param>
+        /// <param name="useExtTypes">Extension types</param>
+        private static void LoadAssemblyTypes(Assembly asm, bool useExtTypes = false)
         {
             if (useExtTypes)
             {
@@ -84,6 +101,9 @@ namespace SosigScript
             
         }
 
+        /// <summary>
+        /// Loads all the classes with SosigScriptLibraryAttribute in all loaded assemblies
+        /// </summary>
         public void LoadAllAssemblyTypes()
         {
             foreach (var asm in LoadedAssemblies)

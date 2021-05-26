@@ -24,28 +24,43 @@ namespace SosigScript
 {
     public class SosigScript : DeliBehaviour
     {
-        public static Executioner ScriptExecutor { get; private set; }
+        /// <summary>
+        /// Script executor
+        /// </summary>
+        public Executioner ScriptExecutor { get; private set; }
+        /// <summary>
+        /// Instance of SosigScript, used in Stdlib.Meta
+        /// </summary>
         public static SosigScript Instance { get; private set; }
-        internal static ManualLogSource Console { get; private set; }
-
+        /// <summary>
+        /// Global manual log source
+        /// </summary>
+        internal ManualLogSource Console { get; private set; }
+        /// <summary>
+        /// Library Loader instance
+        /// </summary>
         public static LibraryLoader Libraries = new();
-
+        /// <summary>
+        /// Scriptloader, used in the Executioner, libraries and LibraryLoader
+        /// </summary>
         public Script ScriptLoader { get; }
 
         public SosigScript()
         {
-            Logger.LogInfo("Initialising SosigScript");
-            //Start up MoonSharp so scripts load faster
-            Logger.LogDebug("Warming up scripts");
-            Script.WarmUp();
             //Set Console log
             Console = BepInEx.Logging.Logger.CreateLogSource("SosigScript");
+            
+            
+            Print("Initialising SosigScript");
+            //Start up MoonSharp so scripts load faster
+            Debug.Print("Warming up scripts");
+            Script.WarmUp();
             //Give it standard platform settings
-            Logger.LogDebug("Setting Platform accessors");
+            Debug.Print("Setting Platform accessors");
             Script.GlobalOptions.Platform = new StandardPlatformAccessor();
             //Make a new manual log source specifically for checking if MoonSharp is initialised
-            Logger.LogDebug("Setting DebugPrint logsource");
-            Script.DefaultOptions.DebugPrint = message => { BepInEx.Logging.Logger.CreateLogSource("SosigScript [INITIALISATION]").LogInfo(message); };
+            Debug.Print("Setting DebugPrint logsource");
+            Script.DefaultOptions.DebugPrint = message => { BepInEx.Logging.Logger.CreateLogSource("SosigScript (INITIALISATION)").LogInfo(message); };
             //Run a print command!
             Script.RunString("print('SosigScript initialised! Hello from Lua!')");
 
@@ -55,7 +70,6 @@ namespace SosigScript
             ScriptExecutor = new Executioner();
 
             Instance = this;
-            Logger.LogInfo("Sosigscript Initialised");
         }
         
         private void Register(RuntimeStage stage)

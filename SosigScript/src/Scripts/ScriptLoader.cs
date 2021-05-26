@@ -14,6 +14,9 @@ namespace SosigScript
 {
     public class ScriptLoader
     {
+        /// <summary>
+        /// Loads the script, then executes it through ScriptExecutor
+        /// </summary>
         public IEnumerator LoadScripts(RuntimeStage stage, Mod mod, IHandle handle)
         {
             
@@ -32,7 +35,7 @@ namespace SosigScript
                 SosigScript.Libraries.LoadAllAssemblyTypes();
             }
 
-            yield return SosigScript.ScriptExecutor.Execute(new KeyValuePair<Mod, string>(mod, script));
+            yield return SosigScript.Instance.ScriptExecutor.Execute(new KeyValuePair<Mod, string>(mod, script));
         }
     }
 }
