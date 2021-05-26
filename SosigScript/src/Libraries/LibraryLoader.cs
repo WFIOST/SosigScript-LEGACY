@@ -28,7 +28,7 @@ namespace SosigScript
             
             Debug.Print($"Loading assembly {file.Name}");
 
-            Assembly asm = Assembly.LoadFile(file.Path);
+            var asm = Assembly.LoadFile(file.Path);
 
             LoadedAssemblies.AddItem(asm);
         }

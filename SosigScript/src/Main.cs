@@ -26,21 +26,26 @@ namespace SosigScript
     {
         public static Executioner ScriptExecutor { get; private set; }
         public static SosigScript Instance { get; private set; }
-        internal static ManualLogSource Console { get; private set; } = new("SosigScript");
+        internal static ManualLogSource Console { get; private set; }
 
         public static LibraryLoader Libraries = new();
 
-        public Script ScriptLoader { get; set; }
+        public Script ScriptLoader { get; }
 
         public SosigScript()
         {
             Logger.LogInfo("Initialising SosigScript");
             //Start up MoonSharp so scripts load faster
+            Logger.LogDebug("Warming up scripts");
             Script.WarmUp();
+            //Set Console log
+            Console = BepInEx.Logging.Logger.CreateLogSource("SosigScript");
             //Give it standard platform settings
+            Logger.LogDebug("Setting Platform accessors");
             Script.GlobalOptions.Platform = new StandardPlatformAccessor();
             //Make a new manual log source specifically for checking if MoonSharp is initialised
-            Script.DefaultOptions.DebugPrint = message => { new ManualLogSource("SosigScript").LogInfo(message); };
+            Logger.LogDebug("Setting DebugPrint logsource");
+            Script.DefaultOptions.DebugPrint = message => { BepInEx.Logging.Logger.CreateLogSource("SosigScript [INITIALISATION]").LogInfo(message); };
             //Run a print command!
             Script.RunString("print('SosigScript initialised! Hello from Lua!')");
 
@@ -50,15 +55,18 @@ namespace SosigScript
             ScriptExecutor = new Executioner();
 
             Instance = this;
+            Logger.LogInfo("Sosigscript Initialised");
         }
         
         private void Register(RuntimeStage stage)
         {
+            Debug.Print("Loading Scripts");
             stage.RuntimeAssetLoaders[Source, "script"] = new ScriptLoader().LoadScripts;
         }
 
         private void Register(SetupStage stage)
         {
+            Debug.Print("Loading Scripts");
             stage.SetupAssetLoaders[Source, "library"] = Libraries.LoadAssembly;
         }
     }

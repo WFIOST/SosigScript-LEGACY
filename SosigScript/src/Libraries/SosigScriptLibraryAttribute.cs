@@ -7,9 +7,9 @@ namespace SosigScript
 	[AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct, Inherited = false, AllowMultiple = false)]
 	public class SosigScriptLibraryAttribute : Attribute
 	{
-		public string				LibraryName		{ get; set; }
-		public SemVersion			LibraryVersion	{ get; set; }
-		public InteropAccessMode	AccessMode		{ get; set; }
+		public string				LibraryName		{ get; }
+		public SemVersion			LibraryVersion	{ get; }
+		public InteropAccessMode	AccessMode		{ get; }
 		
 		public SosigScriptLibraryAttribute(string name, string version)
 		{

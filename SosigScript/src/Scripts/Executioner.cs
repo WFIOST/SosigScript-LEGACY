@@ -12,7 +12,7 @@ namespace SosigScript
 
         public IEnumerator<DynValue> Execute(KeyValuePair<Mod, string> script)
         {
-            var scriptLogger = new ManualLogSource($"SosigScript - {script.Key.Info.Name}");
+            var scriptLogger = BepInEx.Logging.Logger.CreateLogSource($"SosigScript - {script.Key.Info.Name}");
 
             var scriptLoader = SosigScript.Instance.ScriptLoader;
             
