@@ -27,7 +27,7 @@ namespace SosigScript
 
             var scriptLoader = SosigScript.Instance.ScriptLoader;
             
-            Debug.Print("Assigning the DebugPrint to the LogScource");
+            Debug.Print("Assigning the DebugPrint to the LogSource");
             scriptLoader.Options.DebugPrint = message => scriptLogger.LogInfo(message);
 
             DynValue result;
