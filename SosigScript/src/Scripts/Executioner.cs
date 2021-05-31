@@ -11,10 +11,6 @@ namespace SosigScript
     public class Executioner
     {
         /// <summary>
-        /// Dictionary of all the return values of the scripts, mapped to the mod which it is from
-        /// </summary>
-        public Dictionary<Mod, DynValue> ReturnValues = new Dictionary<Mod, DynValue>();
-        /// <summary>
         /// Executes specified script
         /// </summary>
         /// <param name="script">KeyValuePair of Mod (Class), String (the raw script itself)</param>
@@ -30,12 +26,13 @@ namespace SosigScript
             Debug.Print("Assigning the DebugPrint to the LogScource");
             scriptLoader.Options.DebugPrint = message => scriptLogger.LogInfo(message);
 
-            DynValue result;
+          
             
             Debug.Print("Running the script");
+            DynValue result;
             yield return result = scriptLoader.DoString(script.Value);
-            
-            ReturnValues.Add(script.Key, result);
+
+            Print($"Script {script.Key.Info.Name} exited with return {result.ToString()}");
         }
     }
 }

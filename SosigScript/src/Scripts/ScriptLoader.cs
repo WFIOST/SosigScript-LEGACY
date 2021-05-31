@@ -45,6 +45,7 @@ namespace SosigScript
             }
 
             yield return SosigScript.Instance.ScriptExecutor.Execute(new KeyValuePair<Mod, string>(mod, script));
+
         }
     }
 }
