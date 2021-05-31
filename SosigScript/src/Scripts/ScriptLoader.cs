@@ -32,6 +32,12 @@ namespace SosigScript
             
             Debug.Print($"SCRIPT CONTENTS: {script}");
 
+            Debug.Print
+            (
+                $"Libraries loaded?: {SosigScript.Libraries.LibrariesLoaded.ToString()}\n" +
+                $"Loaded Assemblies: {SosigScript.Libraries.LoadedAssemblies.Count}"
+            );
+            
             if (!SosigScript.Libraries.LibrariesLoaded && SosigScript.Libraries.LoadedAssemblies.Count > 0)
             {
                 Print("Loading libraries");

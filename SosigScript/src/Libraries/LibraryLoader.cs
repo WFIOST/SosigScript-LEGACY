@@ -8,6 +8,7 @@ using Deli;
 using Deli.Runtime;
 using Deli.Setup;
 using Deli.VFS;
+using Deli.VFS.Disk;
 using HarmonyLib;
 using MoonSharp.Interpreter;
 using MoonSharp.Interpreter.Compatibility;
@@ -25,24 +26,34 @@ namespace SosigScript
         /// <summary>
         /// List of all the loaded assemblies
         /// </summary>
-        public List<Assembly> LoadedAssemblies { get; } = new List<Assembly>();
+        public List<Assembly> LoadedAssemblies { get; private set; }
         /// <summary>
         /// Boolean expressing if the libraries have been loaded
         /// </summary>
         public bool LibrariesLoaded { get; private set;  }
 
+        public LibraryLoader()
+        {
+            LoadedAssemblies = new List<Assembly>();
+            LibrariesLoaded = false;
+        }
+        
         /// <summary>
         /// Loads an assembly into memory
         /// </summary>
         public void LoadAssembly(SetupStage stage, Mod mod, IHandle handle)
         {
-            if (handle is not IFileHandle file) throw new ArgumentException($"ERROR: {handle} IS NOT A VALID ASSEMBLY!");
+            if (handle is not IFileHandle rawfile) throw new ArgumentException($"ERROR: {handle} IS NOT A VALID ASSEMBLY!");
+            if (rawfile is not IDiskHandle file) throw new ArgumentException($"ERROR: {rawfile} IS NOT A VALID ASSEMBLY!");
             
-            Debug.Print($"Loading assembly {file.Name}");
+            Debug.Print($"Loading assembly {rawfile.Name}");
+            Debug.Print($"Assembly path: {file.PathOnDisk}");
 
-            var asm = Assembly.LoadFile(file.Path);
+            var asm = Assembly.LoadFile(file.PathOnDisk);
 
-            LoadedAssemblies.AddItem(asm);
+            Debug.Print("Loaded Assembly");
+            
+        LoadedAssemblies.Add(asm);
         }
 
         /// <summary>
@@ -111,6 +122,7 @@ namespace SosigScript
                 LoadAssemblyTypes(asm, true);
             }
 
+            //So we dont reload the libraries every script
             LibrariesLoaded = true;
         }
     }
