@@ -7,7 +7,7 @@ namespace SosigScript
 	/// <summary>
 	/// Attribute used for metadata for SosigScript libraries
 	/// </summary>
-	[AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct, Inherited = false, AllowMultiple = false)]
+	[AttributeUsage(AttributeTargets.Class, Inherited = false)]
 	public class SosigScriptLibraryAttribute : Attribute
 	{
 		/// <summary>

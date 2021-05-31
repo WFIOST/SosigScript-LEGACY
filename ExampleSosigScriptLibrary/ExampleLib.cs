@@ -5,6 +5,9 @@ namespace ExampleSosigScriptLibrary
     [SosigScriptLibrary("ExampleLib1", "1.0.0")]
     public class ExampleLib1 : SosigScriptLibrary
     {
+        public string   Text    { get; set; }
+        public int      ID      { get; set; }
+        public float    Value   { get; set; }
         public override void Register() {}
     }
     
