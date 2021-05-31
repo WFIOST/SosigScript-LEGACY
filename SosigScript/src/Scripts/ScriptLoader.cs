@@ -26,10 +26,18 @@ namespace SosigScript
             Print($"Loading script {file}");
 
             string script;
-            yield return script = File.ReadAllLines(file.PathOnDisk).ToString();
+            yield return script = String.Join("\n", File.ReadAllLines(file.PathOnDisk));
 
             Print($"Executing script {file.PathOnDisk}");
+            
+            Debug.Print($"SCRIPT CONTENTS: {script}");
 
+            Debug.Print
+            (
+                $"Libraries loaded?: {SosigScript.Libraries.LibrariesLoaded.ToString()}\n" +
+                $"Loaded Assemblies: {SosigScript.Libraries.LoadedAssemblies.Count}"
+            );
+            
             if (!SosigScript.Libraries.LibrariesLoaded && SosigScript.Libraries.LoadedAssemblies.Count > 0)
             {
                 Print("Loading libraries");
@@ -37,6 +45,7 @@ namespace SosigScript
             }
 
             yield return SosigScript.Instance.ScriptExecutor.Execute(new KeyValuePair<Mod, string>(mod, script));
+
         }
     }
 }

@@ -1,0 +1,16 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExampleSosigScriptLibrary", "ExampleSosigScriptLibrary.csproj", "{409C9BA9-AEFC-41D7-BFAE-4202787FCE97}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{409C9BA9-AEFC-41D7-BFAE-4202787FCE97}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{409C9BA9-AEFC-41D7-BFAE-4202787FCE97}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{409C9BA9-AEFC-41D7-BFAE-4202787FCE97}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{409C9BA9-AEFC-41D7-BFAE-4202787FCE97}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
