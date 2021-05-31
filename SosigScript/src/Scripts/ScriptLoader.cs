@@ -26,9 +26,11 @@ namespace SosigScript
             Print($"Loading script {file}");
 
             string script;
-            yield return script = File.ReadAllLines(file.PathOnDisk).ToString();
+            yield return script = String.Join("\n", File.ReadAllLines(file.PathOnDisk));
 
             Print($"Executing script {file.PathOnDisk}");
+            
+            Debug.Print($"SCRIPT CONTENTS: {script}");
 
             if (!SosigScript.Libraries.LibrariesLoaded && SosigScript.Libraries.LoadedAssemblies.Count > 0)
             {
