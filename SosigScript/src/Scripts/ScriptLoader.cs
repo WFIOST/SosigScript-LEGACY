@@ -44,7 +44,11 @@ namespace SosigScript
                 SosigScript.Libraries.LoadAllAssemblyTypes();
             }
 
-            yield return SosigScript.Instance.ScriptExecutor.Execute(new KeyValuePair<Mod, string>(mod, script));
+            Executioner scriptrunner;
+
+            yield return scriptrunner = new Executioner(new KeyValuePair<Mod, string>(mod, script));
+
+            SosigScript.Instance.ActiveScripts.Add(scriptrunner);
 
         }
     }

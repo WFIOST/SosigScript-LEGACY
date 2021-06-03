@@ -25,10 +25,6 @@ namespace SosigScript
     public class SosigScript : DeliBehaviour
     {
         /// <summary>
-        /// Script executor
-        /// </summary>
-        public Executioner ScriptExecutor { get; private set; }
-        /// <summary>
         /// Instance of SosigScript, used in Stdlib.Meta
         /// </summary>
         public static SosigScript Instance { get; private set; }
@@ -43,13 +39,17 @@ namespace SosigScript
         /// <summary>
         /// Scriptloader, used in the Executioner, libraries and LibraryLoader
         /// </summary>
-        public Script ScriptLoader { get; }
+        public Script ScriptLoader { get; private set; }
+
+        /// <summary>
+        /// Script executioner
+        /// </summary>
+        public List<Executioner> ActiveScripts { get; internal set; }
 
         public SosigScript()
         {
             //Set Console log
             Console = BepInEx.Logging.Logger.CreateLogSource("SosigScript");
-            
             
             Logger.LogInfo("Initialising SosigScript");
             //Start up MoonSharp so scripts load faster
@@ -68,12 +68,27 @@ namespace SosigScript
             Stages.Runtime  += RegisterScripts;
             //We set the "Soft Sandbox" so user has more options in their scripts
             ScriptLoader = new Script(CoreModules.Preset_SoftSandbox);
-            
-            ScriptExecutor = new Executioner();
 
+            ActiveScripts = new List<Executioner>();
             Instance = this;
         }
-        
+
+        private void Awake()
+        {
+            foreach (var script in ActiveScripts.Where(script => script is not null))
+            {
+                script.ExecuteFunction("Awake", null);
+            }
+        }
+
+        private void Update()
+        {
+            foreach (var script in ActiveScripts.Where(script => script is not null))
+            {
+                script.ExecuteFunction("Update", null, true);
+            }
+        }
+
         private void RegisterScripts(RuntimeStage stage)
         {
             Debug.Print("Loading Scripts");

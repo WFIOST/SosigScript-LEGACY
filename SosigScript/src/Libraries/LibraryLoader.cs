@@ -96,14 +96,27 @@ namespace SosigScript
                 .Where(usrtype1 => usrtype1.attributes is { Length: > 0 })
                 .Select(usrtype1 => new { Attributes = usrtype1.attributes, DataType = usrtype1.usrtype });
 
-            foreach (var type in userDataTypes)
+            foreach (var usrdatatype in userDataTypes)
             {
-                Debug.Print($"Registering type {type.DataType.FullName}");
+                var attributes = (SosigScriptLibraryAttribute[])usrdatatype.DataType.GetCustomAttributes(true);
+
+                foreach (var attribute in attributes)
+                {
+                    Debug.Print
+                    (
+                        $"Name: {attribute.LibraryName}\n" +
+                        $"Version: {attribute.LibraryVersion}\n"
+                    );
+                }
+
+                Debug.Print($"Registering type {usrdatatype.DataType.FullName}");
+
+                
                 
                 UserData.RegisterType
                 (
-                    type.DataType,
-                    type.Attributes
+                    usrdatatype.DataType,
+                    usrdatatype.Attributes
                         .OfType<SosigScriptLibraryAttribute>()
                         .First()
                         .AccessMode
