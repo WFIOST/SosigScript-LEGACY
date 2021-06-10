@@ -15,7 +15,7 @@ namespace SosigScript
         /// <summary>
         /// Function for registering your Globals
         /// </summary>
-        public abstract void Register();
-        
+        public abstract void RegisterUserData();
+        public abstract void RegisterGlobals();
     }
 }

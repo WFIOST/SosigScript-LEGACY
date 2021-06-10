@@ -32,8 +32,8 @@
         <WarningLevel>4</WarningLevel>
     </PropertyGroup>
     <ItemGroup>
-        <Reference Include="SosigScript, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-          <HintPath>..\SosigScript\bin\Debug\net35\SosigScript.dll</HintPath>
+        <Reference Include="MoonSharp.Interpreter, Version=2.0.0.0, Culture=neutral, PublicKeyToken=921e73ce94aa17f8">
+          <HintPath>..\lib\MoonSharp.Interpreter.dll</HintPath>
         </Reference>
         <Reference Include="System" />
         <Reference Include="System.Core" />
@@ -43,6 +43,12 @@
     <ItemGroup>
         <Compile Include="ExampleLib.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
+    </ItemGroup>
+    <ItemGroup>
+      <ProjectReference Include="..\SosigScript\SosigScript.csproj">
+        <Project>{c194c450-5d57-4e2a-86de-d98cb4b70c79}</Project>
+        <Name>SosigScript</Name>
+      </ProjectReference>
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
     <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
