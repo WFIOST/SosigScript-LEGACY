@@ -9,9 +9,9 @@ using Deli.VFS;
 using Deli.VFS.Disk;
 
 //because i can
-using static SosigScript.Logger;
+using static SosigScript.Common.Logger;
 
-namespace SosigScript
+namespace SosigScript.ScriptLoader
 {
     public class ScriptLoader
     {

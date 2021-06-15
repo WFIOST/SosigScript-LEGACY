@@ -10,8 +10,9 @@ using Deli.Runtime;
 using Deli.Setup;
 using MoonSharp.Interpreter;
 using MoonSharp.Interpreter.Platforms;
-
-using static SosigScript.Logger;
+using SosigScript.Libraries;
+using SosigScript.ScriptLoader;
+using static SosigScript.Common.Logger;
 
 #region ERROR DISABLES
 // ReSharper disable UnusedMember.local
@@ -92,7 +93,7 @@ namespace SosigScript
         private void RegisterScripts(RuntimeStage stage)
         {
             Debug.Print("Loading Scripts");
-            stage.RuntimeAssetLoaders[Source, "script"] = new ScriptLoader().LoadScripts;
+            stage.RuntimeAssetLoaders[Source, "script"] = new ScriptLoader.ScriptLoader().LoadScripts;
         }
 
         private void RegisterLibraries(SetupStage stage)

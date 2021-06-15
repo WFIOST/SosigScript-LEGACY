@@ -14,9 +14,9 @@ using MoonSharp.Interpreter;
 using MoonSharp.Interpreter.Compatibility;
 using MoonSharp.Interpreter.Interop;
 
-using static SosigScript.Logger;
+using static SosigScript.Common.Logger;
 
-namespace SosigScript
+namespace SosigScript.Libraries
 {
     /// <summary>
     /// Loads SosigScript libraries
@@ -53,7 +53,7 @@ namespace SosigScript
 
             Debug.Print("Loaded Assembly");
             
-        LoadedAssemblies.Add(asm);
+            LoadedAssemblies.Add(asm);
         }
 
         /// <summary>
@@ -63,66 +63,9 @@ namespace SosigScript
         /// <param name="useExtTypes">Extension types</param>
         private static void LoadAssemblyTypes(Assembly asm, bool useExtTypes = false)
         {
-            if (useExtTypes)
-            {
-                Debug.Print($"Assembly {asm.FullName} has extension attributes!");
-                
-                var extensionTypes = asm.SafeGetTypes()
-                    .Select
-                    (
-                        type => new
-                        {
-                            type, attributes = Framework.Do.GetCustomAttributes(type, typeof(ExtensionAttribute), true)
-                        }
-                    )
-                    .Where(type1 => type1.attributes is { Length: > 0 })
-                    .Select(@type1 => new { Attributes = @type1.attributes, DataType = @type1.type });
+            var types = asm.SafeGetTypes();
 
-                foreach (var type in extensionTypes)
-                {
-                    Debug.Print($"Registering type {type.DataType.Name}");
-                    UserData.RegisterExtensionType(type.DataType);
-                }
-            }
 
-            var userDataTypes = asm.SafeGetTypes()
-                .Select
-                (
-                    usrtype => new
-                    {
-                        usrtype, attributes = Framework.Do.GetCustomAttributes(usrtype, typeof(SosigScriptLibraryAttribute), true)
-                    }
-                )
-                .Where(usrtype1 => usrtype1.attributes is { Length: > 0 })
-                .Select(usrtype1 => new { Attributes = usrtype1.attributes, DataType = usrtype1.usrtype });
-
-            foreach (var usrdatatype in userDataTypes)
-            {
-                var attributes = (SosigScriptLibraryAttribute[])usrdatatype.DataType.GetCustomAttributes(true);
-
-                foreach (var attribute in attributes)
-                {
-                    Debug.Print
-                    (
-                        $"Name: {attribute.LibraryName}\n" +
-                        $"Version: {attribute.LibraryVersion}\n"
-                    );
-                }
-
-                Debug.Print($"Registering type {usrdatatype.DataType.FullName}");
-
-                
-                
-                UserData.RegisterType
-                (
-                    usrdatatype.DataType,
-                    usrdatatype.Attributes
-                        .OfType<SosigScriptLibraryAttribute>()
-                        .First()
-                        .AccessMode
-                );
-            }
-            
         }
 
         /// <summary>

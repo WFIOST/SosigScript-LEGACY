@@ -2,7 +2,7 @@
 using MoonSharp.Interpreter;
 using Semver;
 
-namespace SosigScript
+namespace SosigScript.Libraries
 {
 	/// <summary>
 	/// Attribute used for metadata for SosigScript libraries

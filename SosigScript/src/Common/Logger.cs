@@ -1,6 +1,6 @@
 using BepInEx.Logging;
 
-namespace SosigScript
+namespace SosigScript.Common
 {
     /// <summary>
     /// SosigScript logger, unused in script in favour of a scripts personal LogSource
