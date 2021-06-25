@@ -65,22 +65,28 @@ namespace SosigScript.Libraries
         /// <param name="asm">Assembly to get types from</param>
         private void LoadAssemblyTypes(Assembly asm)
         {
-            var types = asm.SafeGetTypes()
-                .Select
+            var typeList = new SosigScriptTypeList() { Source = asm };
+            foreach (var type in asm.SafeGetTypes())
+            {
+                if (!type.IsClass) continue;
+                if (type.BaseType != typeof(SosigScriptTypeList)) continue;
+                
+                var types = new Type[1];
+                types[0] = typeof(SosigScriptTypeList);
+
+                var ctor = type.GetConstructor
                 (
-                    type => new
-                    {
-                        type,
-                        attributes = Framework.Do.GetCustomAttributes(type, typeof(SosigScriptLibraryAttribute), true)
-                    }
-                ).Where
-                (
-                    usrtype => usrtype.attributes is {Length: > 0}
-                ).Select
-                (
-                    usrtype => new { usrtype.attributes, datatype = usrtype.type }
+                    BindingFlags.Instance | BindingFlags.Public,
+                    null,
+                    CallingConventions.HasThis,
+                    types,
+                    null
                 );
+
+                ctor?.Invoke(new object[] {typeList});
+            }
         }
+        
 
         /// <summary>
         /// Loads all the classes with SosigScriptLibraryAttribute in all loaded assemblies

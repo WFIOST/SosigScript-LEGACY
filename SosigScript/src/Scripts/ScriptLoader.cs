@@ -38,7 +38,7 @@ namespace SosigScript.ScriptLoader
                 $"Loaded Assemblies: {SosigScript.Libraries.LoadedAssemblies.Count()}"
             );
             
-            if (!SosigScript.Libraries.LibrariesLoaded && SosigScript.Libraries.LoadedAssemblies.Count() > 0)
+            if (!SosigScript.Libraries.LibrariesLoaded && SosigScript.Libraries.LoadedAssemblies.Any())
             {
                 Print("Loading libraries");
                 SosigScript.Libraries.LoadAllAssemblyTypes();
