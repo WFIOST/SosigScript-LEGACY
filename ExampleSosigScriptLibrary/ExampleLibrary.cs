@@ -5,17 +5,12 @@ using SosigScript.Libraries;
 
 namespace ExampleSosigScriptLibrary
 {
-    [SosigScriptLibrary("Example SosigScript Library", "1.0.0")]
-    public class ExampleLibrary : ISosigScriptLibrary
+    [SosigScriptLibrary("Example Library", "1.0.0")]
+    public class Library : SosigScriptLibrary
     {
-        public IEnumerable<Type> TypesToLoad { get; set; } = new Type[]
+        public Library(SosigScriptTypeList types) : base(types)
         {
-            typeof(ExampleType)
-        };
-
-        public IEnumerable<Type> StaticTypesToLoad { get; set; } = new Type[]
-        {
-            typeof(ExampleStaticType)
-        };
+            types.AddType<ExampleType>();
+        }
     }
 }

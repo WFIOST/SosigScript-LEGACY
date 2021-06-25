@@ -25,33 +25,36 @@ namespace SosigScript
 {
     public class SosigScript : DeliBehaviour
     {
-        /// <summary>
-        /// Instance of SosigScript, used in Stdlib.Meta
-        /// </summary>
-        public static SosigScript Instance { get; private set; }
+
         /// <summary>
         /// Global manual log source
         /// </summary>
-        internal ManualLogSource Console { get; private set; }
-        /// <summary>
-        /// Library Loader instance
-        /// </summary>
-        public static LibraryLoader Libraries = new();
+        internal ManualLogSource Console { get; }
+
         /// <summary>
         /// Scriptloader, used in the Executioner, libraries and LibraryLoader
         /// </summary>
-        public Script ScriptLoader { get; private set; }
+        public Script ScriptLoader { get; }
 
         /// <summary>
         /// Script executioner
         /// </summary>
-        public List<Executioner> ActiveScripts { get; internal set; }
-
+        public List<Executioner> ActiveScripts { get; }
+        
+        /// <summary>
+        /// Instance of SosigScript, used in Stdlib.Meta
+        /// </summary>
+        public static SosigScript Instance { get; private set; }
+        
+        /// <summary>
+        /// Library Loader instance
+        /// </summary>
+        public static LibraryLoader Libraries { get; private set; }
+        
         public SosigScript()
         {
             //Set Console log
             Console = BepInEx.Logging.Logger.CreateLogSource("SosigScript");
-            
             Logger.LogInfo("Initialising SosigScript");
             //Start up MoonSharp so scripts load faster
             Logger.LogDebug("Warming up scripts");
@@ -70,6 +73,7 @@ namespace SosigScript
             //We set the "Soft Sandbox" so user has more options in their scripts
             ScriptLoader = new Script(CoreModules.Preset_SoftSandbox);
 
+            Libraries = new LibraryLoader();
             ActiveScripts = new List<Executioner>();
             Instance = this;
         }

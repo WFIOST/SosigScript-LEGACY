@@ -1,16 +1,12 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.CompilerServices;
 using Deli;
-using Deli.Runtime;
 using Deli.Setup;
 using Deli.VFS;
 using Deli.VFS.Disk;
 using HarmonyLib;
-using MoonSharp.Interpreter;
 using MoonSharp.Interpreter.Compatibility;
 using MoonSharp.Interpreter.Interop;
 
@@ -26,15 +22,22 @@ namespace SosigScript.Libraries
         /// <summary>
         /// List of all the loaded assemblies
         /// </summary>
-        public List<Assembly> LoadedAssemblies { get; private set; }
+        public IEnumerable<Assembly> LoadedAssemblies { get; }
+        /// <summary>
+        /// All loaded types
+        /// </summary>
+        public IEnumerable<SosigScriptTypeList> LoadedTypes { get; }
         /// <summary>
         /// Boolean expressing if the libraries have been loaded
         /// </summary>
-        public bool LibrariesLoaded { get; private set;  }
+        public bool LibrariesLoaded { get; private set; }
+        
+        
 
         public LibraryLoader()
         {
             LoadedAssemblies = new List<Assembly>();
+            LoadedTypes = new List<SosigScriptTypeList>();
             LibrariesLoaded = false;
         }
         
@@ -53,19 +56,30 @@ namespace SosigScript.Libraries
 
             Debug.Print("Loaded Assembly");
             
-            LoadedAssemblies.Add(asm);
+            LoadedAssemblies.AddItem(asm);
         }
 
         /// <summary>
         /// Loads all the classes with SosigScriptLibraryAttribute in the specified assembly
         /// </summary>
         /// <param name="asm">Assembly to get types from</param>
-        /// <param name="useExtTypes">Extension types</param>
-        private static void LoadAssemblyTypes(Assembly asm, bool useExtTypes = false)
+        private void LoadAssemblyTypes(Assembly asm)
         {
-            var types = asm.SafeGetTypes();
-
-
+            var types = asm.SafeGetTypes()
+                .Select
+                (
+                    type => new
+                    {
+                        type,
+                        attributes = Framework.Do.GetCustomAttributes(type, typeof(SosigScriptLibraryAttribute), true)
+                    }
+                ).Where
+                (
+                    usrtype => usrtype.attributes is {Length: > 0}
+                ).Select
+                (
+                    usrtype => new { usrtype.attributes, datatype = usrtype.type }
+                );
         }
 
         /// <summary>
@@ -75,7 +89,7 @@ namespace SosigScript.Libraries
         {
             foreach (var asm in LoadedAssemblies)
             {
-                LoadAssemblyTypes(asm, true);
+                LoadAssemblyTypes(asm);
             }
 
             //So we dont reload the libraries every script
