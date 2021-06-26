@@ -7,6 +7,7 @@ using Deli.Setup;
 using Deli.VFS;
 using Deli.VFS.Disk;
 using HarmonyLib;
+using MoonSharp.Interpreter;
 using MoonSharp.Interpreter.Compatibility;
 using MoonSharp.Interpreter.Interop;
 
@@ -83,8 +84,11 @@ namespace SosigScript.Libraries
                     null
                 );
 
-                ctor?.Invoke(new object[] {typeList});
+                ctor?.Invoke(new object[] { typeList });
             }
+            LoadedTypes.AddItem(typeList);
+            typeList = null; //We ain't using this anymore
+            
         }
         
 
