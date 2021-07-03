@@ -13,6 +13,9 @@ using static SosigScript.Common.Logger;
 
 namespace SosigScript.ScriptLoader
 {
+    /// <summary>
+    /// Class for loading scripts into memory
+    /// </summary>
     public class ScriptLoader
     {
         /// <summary>

@@ -29,27 +29,27 @@ namespace SosigScript
         /// <summary>
         /// Global manual log source
         /// </summary>
-        internal ManualLogSource Console { get; }
+        internal ManualLogSource Console        { get; }
 
         /// <summary>
         /// Scriptloader, used in the Executioner, libraries and LibraryLoader
         /// </summary>
-        public Script ScriptLoader { get; }
+        public Script ScriptLoader              { get; }
 
         /// <summary>
         /// Script executioner
         /// </summary>
-        public List<Executioner> ActiveScripts { get; }
+        public List<Executioner> ActiveScripts  { get; }
         
         /// <summary>
         /// Instance of SosigScript, used in Stdlib.Meta
         /// </summary>
-        public static SosigScript Instance { get; private set; }
+        public static SosigScript Instance      { get; private set; }
         
         /// <summary>
         /// Library Loader instance
         /// </summary>
-        public static LibraryLoader Libraries { get; private set; }
+        public static LibraryLoader Libraries   { get; private set; }
         
         public SosigScript()
         {

@@ -10,8 +10,8 @@ using static SosigScript.Common.Logger;
 namespace SosigScript.ScriptLoader
 {
     /// <summary>
-    /// Executes scripts
-    /// <remarks>Scripts are loaded in memory until the instance of the class is destroyed.</remarks>
+    /// Executes scripts from memory
+    /// <remarks>Scripts are loaded in memory via ScriptLoader until the instance of the class is destroyed.</remarks>
     /// </summary>
     public class Executioner
     {
