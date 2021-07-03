@@ -12,9 +12,9 @@ namespace SosigScript.Common
         /// </summary>
         /// <param name="message">Message to print</param>
         /// <param name="level">LogLevel of the message</param>
-        internal static void Print(object message, LogLevel level = LogLevel.Info) => SosigScript.Instance.Console.Log(level, message);
+        internal static void Print(object message, LogLevel level = LogLevel.Info) => SosigScript.Console.Log(level, message);
 
-        internal static void Error(object message, LogLevel level = LogLevel.Error) => SosigScript.Instance.Console.Log(level, message);
+        internal static void Error(object message, LogLevel level = LogLevel.Error) => SosigScript.Console.Log(level, message);
         
         /// <summary>
         /// Used for debugging
@@ -27,7 +27,7 @@ namespace SosigScript.Common
             /// <param name="message">Message to print
             ///
             /// </param>
-            internal static void Print(object message) => SosigScript.Instance.Console.Log(LogLevel.Debug, message);
+            internal static void Print(object message) => SosigScript.Console.Log(LogLevel.Debug, message);
         }
     }
 }

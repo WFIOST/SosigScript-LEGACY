@@ -29,7 +29,7 @@ namespace SosigScript.ScriptLoader
             
             _logger = BepInEx.Logging.Logger.CreateLogSource($"SosigScript - {script.Key.Info.Name}");
 
-            _script = SosigScript.Instance.ScriptLoader;
+            _script = SosigScript.ScriptLoader;
             
             Debug.Print("Assigning the DebugPrint to the LogSource");
             _script.Options.DebugPrint = message => _logger.LogInfo(message);

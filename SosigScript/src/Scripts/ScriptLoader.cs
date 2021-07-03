@@ -51,7 +51,7 @@ namespace SosigScript.ScriptLoader
 
             yield return scriptrunner = new Executioner(new KeyValuePair<Mod, string>(mod, script));
 
-            SosigScript.Instance.ActiveScripts.Add(scriptrunner);
+            SosigScript.ActiveScripts.Add(scriptrunner);
 
         }
     }

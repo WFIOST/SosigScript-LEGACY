@@ -29,27 +29,22 @@ namespace SosigScript
         /// <summary>
         /// Global manual log source
         /// </summary>
-        internal ManualLogSource Console        { get; }
+        internal static ManualLogSource Console        { get; private set; }
 
         /// <summary>
         /// Scriptloader, used in the Executioner, libraries and LibraryLoader
         /// </summary>
-        public Script ScriptLoader              { get; }
+        public static Script ScriptLoader               { get; private set; }
 
         /// <summary>
-        /// Script executioner
+        /// All actively running scripts
         /// </summary>
-        public List<Executioner> ActiveScripts  { get; }
-        
-        /// <summary>
-        /// Instance of SosigScript, used in Stdlib.Meta
-        /// </summary>
-        public static SosigScript Instance      { get; private set; }
-        
+        public static List<Executioner> ActiveScripts   { get; private set; }
+
         /// <summary>
         /// Library Loader instance
         /// </summary>
-        public static LibraryLoader Libraries   { get; private set; }
+        public static LibraryLoader Libraries           { get; private set; }
         
         public SosigScript()
         {
@@ -75,7 +70,6 @@ namespace SosigScript
 
             Libraries = new LibraryLoader();
             ActiveScripts = new List<Executioner>();
-            Instance = this;
         }
 
         private void Awake()
