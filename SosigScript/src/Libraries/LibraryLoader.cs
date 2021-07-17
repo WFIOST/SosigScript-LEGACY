@@ -1,14 +1,9 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.IO;
 using System.Reflection;
-using Deli;
-using Deli.Setup;
-using Deli.VFS;
-using Deli.VFS.Disk;
+using BepInEx.Configuration;
 using HarmonyLib;
-using MoonSharp.Interpreter;
-using MoonSharp.Interpreter.Compatibility;
 using MoonSharp.Interpreter.Interop;
 
 using static SosigScript.Common.Logger;
@@ -37,27 +32,31 @@ namespace SosigScript.Libraries
 
         public LibraryLoader()
         {
-            LoadedAssemblies = new List<Assembly>();
-            LoadedTypes = new List<SosigScriptTypeList>();
-            LibrariesLoaded = false;
+            LoadedAssemblies    = new List<Assembly>();
+            LoadedTypes         = new List<SosigScriptTypeList>();
+            LibrariesLoaded     = false;
         }
         
         /// <summary>
         /// Loads an assembly into memory
         /// </summary>
-        public void LoadAssembly(SetupStage stage, Mod mod, IHandle handle)
+        public void LoadAssembly()
         {
-            if (handle is not IFileHandle rawfile) throw new ArgumentException($"ERROR: {handle} IS NOT A VALID ASSEMBLY!");
-            if (rawfile is not IDiskHandle file) throw new ArgumentException($"ERROR: {rawfile} IS NOT A VALID ASSEMBLY!");
-            
-            Debug.Print($"Loading assembly {rawfile.Name}");
-            Debug.Print($"Assembly path: {file.PathOnDisk}");
+            string[] dirs = Directory.GetDirectories(Common.PLUGINS_DIR);
+            foreach (string dirPath in dirs)
+            {
+                var dir = new DirectoryInfo(dirPath);
 
-            var asm = Assembly.LoadFile(file.PathOnDisk);
-
-            Debug.Print("Loaded Assembly");
-            
-            LoadedAssemblies.AddItem(asm);
+                foreach (FileInfo ssLibMetaFile in dir.GetFiles("*.sslibmeta"))
+                {
+                    string contents = String.Empty;
+                    using var reader = new StreamReader(ssLibMetaFile.OpenRead());
+                    while (!reader.EndOfStream)
+                    {
+                        contents += $"{reader.ReadLine()}\n";
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -71,9 +70,8 @@ namespace SosigScript.Libraries
             {
                 if (!type.IsClass) continue;
                 if (type.BaseType != typeof(SosigScriptTypeList)) continue;
-                
-                var types = new Type[1];
-                types[0] = typeof(SosigScriptTypeList);
+
+                var types = new Type[] { typeof(SosigScriptTypeList) };
 
                 var ctor = type.GetConstructor
                 (
@@ -84,13 +82,11 @@ namespace SosigScript.Libraries
                     null
                 );
 
+                
                 ctor?.Invoke(new object[] { typeList });
             }
             LoadedTypes.AddItem(typeList);
-            typeList = null; //We ain't using this anymore
-            
         }
-        
 
         /// <summary>
         /// Loads all the classes with SosigScriptLibraryAttribute in all loaded assemblies

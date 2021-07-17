@@ -7,7 +7,6 @@ namespace SosigScript.Libraries
     {
         public SosigScriptLibrary(SosigScriptTypeList types)
         {
-            
         }
     }
 }

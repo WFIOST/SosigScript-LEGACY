@@ -1,17 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Reflection;
-using System.Runtime.CompilerServices;
+
+using BepInEx;
 using BepInEx.Logging;
-using Deli;
-using Deli.Runtime;
-using Deli.Setup;
+
 using MoonSharp.Interpreter;
 using MoonSharp.Interpreter.Platforms;
+using Script = MoonSharp.Interpreter.Script;
+
 using SosigScript.Libraries;
 using SosigScript.ScriptLoader;
+using PluginInfo = SosigScript.Common.PluginInfo;
+
 using static SosigScript.Common.Logger;
 
 #region ERROR DISABLES
@@ -23,18 +23,19 @@ using static SosigScript.Common.Logger;
 
 namespace SosigScript
 {
-    public class SosigScript : DeliBehaviour
+    [BepInPlugin(PluginInfo.GUID, PluginInfo.NAME, PluginInfo.VERSION)]
+    public class SosigScript : BaseUnityPlugin
     {
 
         /// <summary>
         /// Global manual log source
         /// </summary>
-        internal static ManualLogSource Console        { get; private set; }
+        internal static ManualLogSource Console         { get; private set; }
 
         /// <summary>
         /// Scriptloader, used in the Executioner, libraries and LibraryLoader
         /// </summary>
-        public static Script ScriptLoader               { get; private set; }
+        public static Script            ScriptLoader    { get; private set; }
 
         /// <summary>
         /// All actively running scripts
@@ -44,7 +45,7 @@ namespace SosigScript
         /// <summary>
         /// Library Loader instance
         /// </summary>
-        public static LibraryLoader Libraries           { get; private set; }
+        public static LibraryLoader     Libraries       { get; private set; }
         
         public SosigScript()
         {
@@ -62,14 +63,10 @@ namespace SosigScript
             Script.DefaultOptions.DebugPrint = message => { BepInEx.Logging.Logger.CreateLogSource("SosigScript (INITIALISATION)").LogInfo(message); };
             //Run a print command!
             Script.RunString("print('SosigScript initialised! Hello from Lua!')");
-            Logger.LogDebug("Subscribing to the AssetLoader events");
-            Stages.Setup    += RegisterLibraries;
-            Stages.Runtime  += RegisterScripts;
             //We set the "Soft Sandbox" so user has more options in their scripts
-            ScriptLoader = new Script(CoreModules.Preset_SoftSandbox);
-
-            Libraries = new LibraryLoader();
-            ActiveScripts = new List<Executioner>();
+            ScriptLoader    = new Script(CoreModules.Preset_SoftSandbox);
+            Libraries       = new LibraryLoader();
+            ActiveScripts   = new List<Executioner>();
         }
 
         private void Awake()
@@ -86,18 +83,6 @@ namespace SosigScript
             {
                 script.ExecuteFunction("Update", null, true);
             }
-        }
-
-        private void RegisterScripts(RuntimeStage stage)
-        {
-            Debug.Print("Loading Scripts");
-            stage.RuntimeAssetLoaders[Source, "script"] = new ScriptLoader.ScriptLoader().LoadScripts;
-        }
-
-        private void RegisterLibraries(SetupStage stage)
-        {
-            Debug.Print("Loading Libraries");
-            stage.SetupAssetLoaders[Source, "library"] = Libraries.LoadAssembly;
         }
     }
 }

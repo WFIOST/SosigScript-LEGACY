@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Reflection;
 using HarmonyLib;
 
+using static SosigScript.Common.Logger;
+
 namespace SosigScript.Libraries
 {
     /// <summary>
@@ -26,6 +28,7 @@ namespace SosigScript.Libraries
 
         public void AddType<T>()
         {
+            Debug.Print($"Registering type {nameof(T)}");
             RegisteredTypes.AddItem(typeof(T));
         }
     }
